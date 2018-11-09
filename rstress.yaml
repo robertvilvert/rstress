@@ -1,0 +1,44 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: rstress
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      service: rstress
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app_group: worker
+        app: rstress
+        service: rstress
+    spec:
+      containers:
+      - name: rstress
+        image: robertvilvert/rstress:latest
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.5"
+            memory: "512Mi"
+        imagePullPolicy: Always
+        env:
+          -
+            name: LOOPX
+            value: "101"
+          -
+            name: LOG
+            value: "0"
+          -
+            name: REDIS_URL
+            value: "redis-url"

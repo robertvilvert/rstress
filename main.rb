@@ -13,16 +13,17 @@ def set_redis(id, time)
 end
 
 
-def show_log(count, time)
- puts "Count: #{count} | Time Now: #{time}"
+def show_log(count, time, key_id)
+ puts "Count: #{count} | Time Now: #{time} | Object ID: #{key_id}"
 end
 
 count = 1
 while count < loopx.to_i  do
 	time = Time.now
-	t = Thread.new{set_redis(count, time)}
+  key_id = time.object_id
+	t = Thread.new{set_redis(key_id, time)}
 	t.join
-  show_log(count, time) if log == 1
+  show_log(count, time, key_id) if log == 1
 	count +=1
 
 end
