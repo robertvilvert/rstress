@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: rstress
-        image: robertvilvert/rstress:latest
+        image: robertvilvert/rstress:1.0
         resources:
           limits:
             cpu: "0.5"
